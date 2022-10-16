@@ -27,8 +27,6 @@ app.post('/danish/post',async(req,res)=>{
         password:req.body.password
     })
     let send = await result.save()
-    console.log(data)
-    console.log(result)
 
 
     res.send(send)
