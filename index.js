@@ -1,14 +1,15 @@
 const express = require('express')
+const logIn = require('./routes/login')
 require('./db/config')
 const app = express()
 const cors = require('cors')
 app.use(cors())
 const signUp = require('./Schema/user')
 app.use(express.urlencoded({ extended: true }));
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
 // app.use(cookieParser());
 app.use(express.json());
+
+
 
 // app.use(logger('dev'));
 // this is for all the users
@@ -18,16 +19,21 @@ app.get('/danish',async(req,res)=>{
     let allUser = await signUp.find()
     res.send(allUser)
 })
-app.post('/danish/post',async(req,res)=>{
-    let data = req.body
+app.use('/',logIn)
+
+
+
+
+app.post('/signup',async(req,res)=>{
+    let {name,email,password} = req.body
 
     let result = new signUp({
-        name:req.body.name,
-        email:req.body.email,
-        password:req.body.password
+        name:name,
+        email:email,
+        password:password
     })
     let send = await result.save()
-    console.log(data)
+    // console.log(data)
     console.log(result)
 
 
